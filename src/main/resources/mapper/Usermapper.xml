@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fight.mapper.UserMapper">
+  <resultMap id="BaseResultMap" type="com.fight.pojo.User">
+    <id column="userid" jdbcType="INTEGER" property="userid" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="mobilephone" jdbcType="VARCHAR" property="mobilephone" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="uimage" jdbcType="VARCHAR" property="uimage" />
+    <result column="sex" jdbcType="VARCHAR" property="sex" />
+    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="degree" jdbcType="INTEGER" property="degree" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    userid, username, `password`, mobilephone, email, uimage, sex, createtime, `status`,
+    `degree`
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from user
+    where userid = #{userid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from user
+    where userid = #{userid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.fight.pojo.User">
+    insert into user (userid, username, `password`,
+      mobilephone, email, uimage,
+      sex, createtime, `status`,
+      `degree`)
+    values (#{userid,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
+      #{mobilephone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{uimage,jdbcType=VARCHAR},
+      #{sex,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR},
+      #{degree,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fight.pojo.User">
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userid != null">
+        userid,
+      </if>
+      <if test="username != null">
+        username,
+      </if>
+      <if test="password != null">
+        `password`,
+      </if>
+      <if test="mobilephone != null">
+        mobilephone,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="uimage != null">
+        uimage,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="createtime != null">
+        createtime,
+      </if>
+      <if test="status != null">
+        `status`,
+      </if>
+      <if test="degree != null">
+        `degree`,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userid != null">
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="mobilephone != null">
+        #{mobilephone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="uimage != null">
+        #{uimage,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="degree != null">
+        #{degree,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fight.pojo.User">
+    update user
+    <set>
+      <if test="username != null">
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        `password` = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="mobilephone != null">
+        mobilephone = #{mobilephone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="uimage != null">
+        uimage = #{uimage,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        `status` = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="degree != null">
+        `degree` = #{degree,jdbcType=INTEGER},
+      </if>
+    </set>
+    where userid = #{userid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fight.pojo.User">
+    update user
+    set username = #{username,jdbcType=VARCHAR},
+      `password` = #{password,jdbcType=VARCHAR},
+      mobilephone = #{mobilephone,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      uimage = #{uimage,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=TIMESTAMP},
+      `status` = #{status,jdbcType=VARCHAR},
+      `degree` = #{degree,jdbcType=INTEGER}
+    where userid = #{userid,jdbcType=INTEGER}
+  </update>
+
+  <select id="login" parameterType="String" resultMap="BaseResultMap">
+select * from user where username=#{param1} and password=#{param2}
+  </select>
+
+<select id="nameExornot" resultType="String" resultMap="BaseResultMap">
+  select *
+  from user where username=#{name};
+</select>
+
+  <select id="rowBounds" resultMap="BaseResultMap" parameterType="String">
+    select *
+    from user where username=#{type};
+  </select>
+
+  <select id="selectByName" resultMap="BaseResultMap">
+    select * from user where username=#{username}
+  </select>
+
+</mapper>

@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fight.mapper.CommodityMapper">
+  <resultMap id="BaseResultMap" type="com.fight.pojo.Commodity">
+    <id column="commid" jdbcType="INTEGER" property="commid" />
+    <result column="commname" jdbcType="VARCHAR" property="commname" />
+    <result column="commdesc" jdbcType="VARCHAR" property="commdesc" />
+    <result column="videourl" jdbcType="VARCHAR" property="videourl" />
+    <result column="orimoney" jdbcType="DECIMAL" property="orimoney" />
+    <result column="thinkmoney" jdbcType="DECIMAL" property="thinkmoney" />
+    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="commstatus" jdbcType="INTEGER" property="commstatus" />
+    <result column="rednumber" jdbcType="INTEGER" property="rednumber" />
+    <result column="category" jdbcType="VARCHAR" property="category" />
+    <result column="image" jdbcType="VARCHAR" property="image" />
+    <result column="userid" jdbcType="INTEGER" property="userid" />
+    <result column="alreadsold" jdbcType="VARCHAR" property="alreadsold" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    commid, commname, commdesc, videourl, orimoney, thinkmoney, createtime, commstatus,
+    rednumber, category, image, userid,alreadsold
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from commodity
+    where commid = #{commid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from commodity
+    where commid = #{commid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.fight.pojo.Commodity">
+    insert into commodity (commid, commname, commdesc,
+                           videourl, orimoney, thinkmoney,
+                           createtime, commstatus, rednumber,
+                           category, image, userid,alreadsold
+    )
+    values (#{commid,jdbcType=INTEGER}, #{commname,jdbcType=VARCHAR}, #{commdesc,jdbcType=VARCHAR},
+            #{videourl,jdbcType=VARCHAR}, #{orimoney,jdbcType=DECIMAL}, #{thinkmoney,jdbcType=DECIMAL},
+            #{createtime,jdbcType=TIMESTAMP}, #{commstatus,jdbcType=INTEGER}, #{rednumber,jdbcType=INTEGER},
+            #{category,jdbcType=VARCHAR}, #{image,jdbcType=VARCHAR}, #{userid,jdbcType=INTEGER},#{alreadsold,jdbcType=VARCHAR}
+           )
+  </insert>
+  <insert id="insertSelective" parameterType="com.fight.pojo.Commodity">
+    insert into commodity
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="commid != null">
+        commid,
+      </if>
+      <if test="commname != null">
+        commname,
+      </if>
+      <if test="commdesc != null">
+        commdesc,
+      </if>
+      <if test="videourl != null">
+        videourl,
+      </if>
+      <if test="orimoney != null">
+        orimoney,
+      </if>
+      <if test="thinkmoney != null">
+        thinkmoney,
+      </if>
+      <if test="createtime != null">
+        createtime,
+      </if>
+      <if test="commstatus != null">
+        commstatus,
+      </if>
+      <if test="rednumber != null">
+        rednumber,
+      </if>
+      <if test="category != null">
+        category,
+      </if>
+      <if test="image != null">
+        image,
+      </if>
+      <if test="userid != null">
+        userid,
+      </if>
+      <if test="alreadsold != null">
+        alreadsold,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="commid != null">
+        #{commid,jdbcType=INTEGER},
+      </if>
+      <if test="commname != null">
+        #{commname,jdbcType=VARCHAR},
+      </if>
+      <if test="commdesc != null">
+        #{commdesc,jdbcType=VARCHAR},
+      </if>
+      <if test="videourl != null">
+        #{videourl,jdbcType=VARCHAR},
+      </if>
+      <if test="orimoney != null">
+        #{orimoney,jdbcType=DECIMAL},
+      </if>
+      <if test="thinkmoney != null">
+        #{thinkmoney,jdbcType=DECIMAL},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="commstatus != null">
+        #{commstatus,jdbcType=INTEGER},
+      </if>
+      <if test="rednumber != null">
+        #{rednumber,jdbcType=INTEGER},
+      </if>
+      <if test="category != null">
+        #{category,jdbcType=VARCHAR},
+      </if>
+      <if test="image != null">
+        #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null">
+        #{userid,jdbcType=INTEGER},
+      </if>
+        <if test="alreadsold != null">
+        #{alreadsold,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fight.pojo.Commodity">
+    update commodity
+    <set>
+      <if test="commname != null">
+        commname = #{commname,jdbcType=VARCHAR},
+      </if>
+      <if test="commdesc != null">
+        commdesc = #{commdesc,jdbcType=VARCHAR},
+      </if>
+      <if test="videourl != null">
+        videourl = #{videourl,jdbcType=VARCHAR},
+      </if>
+      <if test="orimoney != null">
+        orimoney = #{orimoney,jdbcType=DECIMAL},
+      </if>
+      <if test="thinkmoney != null">
+        thinkmoney = #{thinkmoney,jdbcType=DECIMAL},
+      </if>
+      <if test="createtime != null">
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="commstatus != null">
+        commstatus = #{commstatus,jdbcType=INTEGER},
+      </if>
+      <if test="rednumber != null">
+        rednumber = #{rednumber,jdbcType=INTEGER},
+      </if>
+      <if test="category != null">
+        category = #{category,jdbcType=VARCHAR},
+      </if>
+      <if test="image != null">
+        image = #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null">
+        userid = #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="alreadsold != null">
+        alreadsold = #{alreadsold,jdbcType=VARCHAR},
+    </if>
+    </set>
+    where commid = #{commid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fight.pojo.Commodity">
+    update commodity
+    set commname = #{commname,jdbcType=VARCHAR},
+        commdesc = #{commdesc,jdbcType=VARCHAR},
+        videourl = #{videourl,jdbcType=VARCHAR},
+        orimoney = #{orimoney,jdbcType=DECIMAL},
+        thinkmoney = #{thinkmoney,jdbcType=DECIMAL},
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+        commstatus = #{commstatus,jdbcType=INTEGER},
+        rednumber = #{rednumber,jdbcType=INTEGER},
+        category = #{category,jdbcType=VARCHAR},
+        image = #{image,jdbcType=VARCHAR},
+        alreadsold = #{alreadsold,jdbcType=VARCHAR},
+        userid = #{userid,jdbcType=INTEGER}
+    where commid = #{commid,jdbcType=INTEGER}
+  </update>
+
+
+
+  <select id="selectByType" resultMap="BaseResultMap"  >
+    SELECT * FROM commodity where category=#{type}
+  </select>
+<!--价格从高到低-->
+  <select id="selectByTypeAndPriceDesc" resultMap="BaseResultMap" >
+    SELECT * FROM commodity WHERE category =#{type} ORDER BY thinkmoney DESC
+  </select>
+
+<!--价格从低到高-->
+  <select id="selectByTypeAndPriceAsc" resultMap="BaseResultMap" >
+    SELECT * FROM commodity WHERE category =#{type} ORDER BY thinkmoney asc
+  </select>
+
+ <!-- <select id="getUserByRowBounds" resultMap="BaseResultMap" parameterType="String">
+    SELECT * FROM commodity where category=#{type}
+  </select>-->
+
+  <select id="selectByuserId" resultType="com.fight.pojo.Commodity">
+    select * from commodity where userid=#{userid}  limit #{param2},#{param3}
+  </select>
+
+  <select id="selectweishen" resultType="com.fight.pojo.Commodity">
+    select * from commodity where userid=#{userid} and commstatus=#{commstatus}
+  </select>
+  <select id="selectAllPro" resultType="com.fight.pojo.Commodity">
+    select * from commodity
+  </select>
+  <select id="selectweiPro" resultType="com.fight.pojo.Commodity">
+    select * from commodity where commstatus=#{status}
+  </select>
+
+  <select id="selectProBynameAnduserId" resultType="com.fight.pojo.Commodity">
+    select * from commodity where userid=#{userid} and commname=#{commname}
+  </select>
+
+  <select id="selectNew" resultType="com.fight.pojo.Commodity">
+    select * from commodity ORDER BY createtime DESC
+  </select>
+</mapper>
