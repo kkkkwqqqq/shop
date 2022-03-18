@@ -70,7 +70,6 @@ public class CommodityController {
             return new ResultVo(100, "每页多少条数据不能为空");
         }
         if (order.equals("1")) {
-            System.out.println("a");
             PageHelper.startPage(start,end);
             List<Commodity> commodities = commodityService.selectByTypeAndPriceDesc(type, start, end);
             PageInfo<Commodity> pageInfo = new PageInfo<Commodity>(commodities);
