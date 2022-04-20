@@ -169,4 +169,20 @@ select * from user where username=#{param1} and password=#{param2}
     select * from user where username=#{username}
   </select>
 
+  <select id="selectByNameAndPwd" resultMap="BaseResultMap">
+    select * from user where username=#{param1} and password=#{param2}
+  </select>
+
+ <!-- <update id="updateUserStatus">
+    update user
+    set status=#{param1} where userid=#{param2}
+  </update>-->
+
+  <select id="seleceAllUserId" resultType="java.lang.Integer">
+    select userid from user
+  </select>
+
+  <select id="selectGlyByNameAndPwd" resultMap="BaseResultMap">
+    select * from user where username=#{param1} and password=#{param2} and degree=1
+  </select>
 </mapper>

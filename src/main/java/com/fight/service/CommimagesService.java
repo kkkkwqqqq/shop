@@ -13,4 +13,6 @@ public interface CommimagesService {
     Integer insertAllCommimages(Commimages commimages);
 
     Integer deleteImagByid(int id);
+
+    Integer deleteImagByCommid(Integer commid);
 }

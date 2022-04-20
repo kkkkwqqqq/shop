@@ -35,8 +35,8 @@ public class CommodityServiceimpl implements CommodityService {
     }
 
     @Override
-    public List<Commodity> selectProById(Integer commid,Integer page,Integer count) {
-        return commodityMapper.selectByuserId(commid,page,count);
+    public List<Commodity> selectProById(Integer userid) {
+        return commodityMapper.selectByuserId(userid);
     }
 
     @Override
@@ -45,8 +45,8 @@ public class CommodityServiceimpl implements CommodityService {
     }
 
     @Override
-    public Integer deleteProByid(Integer commid) {
-        return commodityMapper.deleteByPrimaryKey(commid);
+    public Integer deleteProByid(Integer commid,Integer userid) {
+        return commodityMapper.deleteByPrimaryKey(commid,userid);
     }
 
     @Override
@@ -77,5 +77,30 @@ public class CommodityServiceimpl implements CommodityService {
     @Override
     public List<Commodity> select() {
         return commodityMapper.selectNew();
+    }
+
+    @Override
+    public void updateLiulanLBycomid(Integer key, Integer liulan) {
+       commodityMapper.updateLiulanLBycomid(key,liulan);
+    }
+
+    @Override
+    public List<Commodity> selectProById1(Integer commid) {
+        return commodityMapper.selectByuserId1(commid);
+    }
+
+    @Override
+    public Commodity selectProByIdAndCid(Integer commid, Integer userid) {
+        return commodityMapper.selectProByIdAndCid(commid,userid);
+    }
+
+    @Override
+    public Integer deleteProByid1(Integer commid) {
+        return commodityMapper.deleteByCommid(commid);
+    }
+
+    @Override
+    public Integer updateMyProByAdmin(Integer commid) {
+        return commodityMapper.updateMyProByAdmin(commid);
     }
 }

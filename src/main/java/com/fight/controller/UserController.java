@@ -1,35 +1,36 @@
 package com.fight.controller;
 
+import com.fight.Constants.Constants;
 import com.fight.pojo.User;
 import com.fight.service.UserService;
 
 import com.fight.util.JustPhone;
+import com.fight.util.JwtUtil;
 import com.fight.util.ValidateCode;
+import com.fight.vo.Result1;
 import com.fight.vo.ResultVo;
-import io.swagger.annotations.Api;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.IncorrectCredentialsException;
-import org.apache.shiro.authc.UnknownAccountException;
-import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
+import java.util.*;
 
 
 @RestController
-@Api(value = "测试接口", tags = "用户模块")
 public class UserController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    @Qualifier("redisTemplate1")
+    private RedisTemplate redisTemplate;
 
 
     @GetMapping("/getCodeImg")
@@ -43,60 +44,37 @@ public class UserController {
         response.setHeader("Pragma", "no-cache");
         response.setHeader("Cache-Control", "no-cache");
         response.setDateHeader("Expires", 0);
-        ValidateCode vCode = new ValidateCode(820, 200, 5, 80);
+        ValidateCode vCode = new ValidateCode(820, Constants.SUCCESS_STATUS, 5, 80);
         vCode.write(response.getOutputStream());
     }
 
 
-  /*  //验证用户登录
 
-    @ResponseBody
-    @RequestMapping(value = "/user/login", method = RequestMethod.GET)
-    public ResultVo login(String code, String username, String password, HttpSession httpSession) {
-        if (code == null) {
-            return new ResultVo(100, "请输入验证码");
-        }
-        if (ValidateCode.code == null || !ValidateCode.code.equals(code)) {
-            return new ResultVo(100, "验证码错误，请重新输入");
-        }
-        httpSession.removeAttribute("code");
-        if (username == null || password == null) {
-            return new ResultVo(100, "账号或者密码不能为空");
-        }
-        User user = userService.login(username, password);
-
-        if (user != null) {
-            user.setStatus("online");
-            return new ResultVo(200, "登录成功", user);
-        } else {
-            return new ResultVo(100, "账号或密码错误");
-        }
-    }*/
 
     //用户注册
     @ResponseBody
     @RequestMapping(value = "/register", method = RequestMethod.POST)
 
     public ResultVo register(HttpServletRequest req) {
-        String code = req.getParameter("code");
+     /*   String code = req.getParameter("code");
         if (code == null) {
-            return new ResultVo(100, "请输入验证码");
-        }
-        if (ValidateCode.code == null || !ValidateCode.code.equals(code)) {
-            return new ResultVo(100, "验证码错误，请重新输入");
-        }
+            return new ResultVo(Constants.FAILED_STATUS, "请输入验证码");
+        }*/
+       /* if (ValidateCode.code == null || !ValidateCode.code.equals(code)) {
+            return new ResultVo(Constants.FAILED_STATUS, "验证码错误，请重新输入");
+        }*/
         String username = req.getParameter("username");
         if (userService.nameExornot(username) != null) {
-            return new ResultVo(100, "用户名已被占用");
+            return new ResultVo(Constants.FAILED_STATUS, "用户名已被占用");
         }
         String password = req.getParameter("password");
         if (username == null || password == null) {
-            return new ResultVo(100, "账号或者密码不能为空");
+            return new ResultVo(Constants.FAILED_STATUS, "账号或者密码不能为空");
         }
 
         String mobilephone = req.getParameter("mobilephone");
         if (!JustPhone.isChinaPhoneLegal(mobilephone)) {
-            return new ResultVo(100, "手机号码不合法，请重新输入");
+            return new ResultVo(Constants.FAILED_STATUS, "手机号码不合法，请重新输入");
         }
 
         String sex = req.getParameter("sex");
@@ -110,9 +88,9 @@ public class UserController {
         user.setPassword(password);
 
         if (userService.register(user)) {
-            return new ResultVo(200, "注册成功");
+            return new ResultVo(Constants.SUCCESS_STATUS, "注册成功");
         } else {
-            return new ResultVo(100, "注册失败");
+            return new ResultVo(Constants.FAILED_STATUS, "注册失败");
         }
 
 
@@ -123,60 +101,64 @@ public class UserController {
     @ResponseBody
     public Object login(String username,String password,String code) {
         if (username == null || password == null) {
-            return new ResultVo(100, "账号或者密码不能为空");
+            return new ResultVo(Constants.FAILED_STATUS, "账号或者密码不能为空");
         }
-        if (code == null) {
-            return new ResultVo(100, "请输入验证码");
+        //去数据库中查询数据
+        User user = userService.selectByNameAndPwd(username, password);
+        if (user == null) {
+            return new ResultVo(Constants.FAILED_STATUS, "账号或密码错误");
         }
-        if (ValidateCode.code == null || !ValidateCode.code.equals(code)) {
-            return new ResultVo(100, "验证码错误，请重新输入");
-        }
-        //获取当前的用户
-        Subject subject = SecurityUtils.getSubject();
-        //封装用户的登录数据
-        UsernamePasswordToken token = new UsernamePasswordToken(username, password);
-        try {
-            subject.login(token); //执行登录方法，如果没有异常就说明ok了
-        } catch (UnknownAccountException e) {//用户名不存在
-            return new ResultVo(100,"用户名输入错误");
-        } catch (IncorrectCredentialsException e) {//密码不存在
-            return new ResultVo(100,"密码输出错误");
-        }
-        User user = userService.login(username, password);
+        String userId = user.getUserid() + "";
 
-        return new ResultVo(200,"登录成功",user);}
+        //准备存放在IWT中的自定义数据
+        Map<String, Object> info = new HashMap<>();
+        info.put("username", username);
+        /*info.put("password", password);*/
+
+        //生成JWT字符串
+        String token = JwtUtil.sign(userId, info);
+        //将信息放到redis中
+        redisTemplate.opsForValue().set(userId,token.toString(),60*60*1000);
+
+        List<Object> list = new ArrayList<Object>();
+        user.setStatus("online");
+    return new Result1(Constants.SUCCESS_STATUS,"登录成功",token,user);
+    }
+
 
 
     //修改用户信息
-    @ResponseBody
+   /* @ResponseBody
     @RequestMapping(value = "/user/update")
     public ResultVo update(HttpServletRequest req) {
         String username = req.getParameter("username");
         String userId1 = req.getParameter("userId");
+        System.out.println(userId1);
+        System.out.println(username);
         if (userId1 == null) {
-            return new ResultVo(100, "用户id不能为空");
+            return new ResultVo(Constants.FAILED_STATUS, "用户id不能为空");
         }
         Integer userId = Integer.valueOf(userId1);
         String password = req.getParameter("password");
         if (username == null) {
-            return new ResultVo(100, "账号不能为空");
+            return new ResultVo(Constants.FAILED_STATUS, "账号不能为空");
         }
         if (password == null) {
-            return new ResultVo(100, "密码不能为空");
+            return new ResultVo(Constants.FAILED_STATUS, "密码不能为空");
         }
 
         String mobilephone = req.getParameter("mobilephone");
         if (!JustPhone.isChinaPhoneLegal(mobilephone)) {
-            return new ResultVo(100, "手机号码不合法，请重新输入");
+            return new ResultVo(Constants.FAILED_STATUS, "手机号码不合法，请重新输入");
         }
 
         String sex = req.getParameter("sex");
         if (sex == null) {
-            return new ResultVo(100, "性别不能为空");
+            return new ResultVo(Constants.FAILED_STATUS, "性别不能为空");
         }
         String email = req.getParameter("email");
         if (email == null) {
-            return new ResultVo(100, "邮箱不能为空");
+            return new ResultVo(Constants.FAILED_STATUS, "邮箱不能为空");
         }
         User user = new User();
         user.setSex(sex);
@@ -188,20 +170,20 @@ public class UserController {
 
         Integer count = userService.updateUser(user);
         if (count == 0) {
-            return new ResultVo(100, "修改失败");
+            return new ResultVo(Constants.FAILED_STATUS, "修改失败");
         } else {
-            return new ResultVo(200, "修改成功", user);
+            return new ResultVo(Constants.SUCCESS_STATUS, "修改成功", user);
         }
 
 
-    }
+    }*/
 
     //    更新用户头像
     @ResponseBody
     @RequestMapping(value = "/user/avatar/update")
-    public Object updateUserPic(@RequestParam("file") MultipartFile avatorFile, @RequestParam("userId") int userId) {
+    public Object updateUserPic(HttpServletRequest request,@RequestParam("file") MultipartFile avatorFile) {
         if (avatorFile.isEmpty()) {
-            return new ResultVo(100, "文件上传失败");
+            return new ResultVo(Constants.FAILED_STATUS, "文件上传失败");
 
         }
         String fileName = System.currentTimeMillis() + avatorFile.getOriginalFilename();
@@ -217,17 +199,61 @@ public class UserController {
         try {
             avatorFile.transferTo(dest);
             User user = new User();
-            user.setUserid(userId);
+            /*防止篡改他人数据*/
+           /* user.setUserid(userId);*/
+            String token = request.getHeader("token");
+            String userId = JwtUtil.getUserId(token);
+            user.setUserid(Integer.parseInt(userId));
             user.setUimage(imagPath);
             Integer count = userService.updateUser(user);
             if (count == 1) {
-                return new ResultVo(200, "上传成功");
+                return new ResultVo(Constants.SUCCESS_STATUS, "上传成功");
             } else {
-                return new ResultVo(100, "上传失败");
+                return new ResultVo(Constants.FAILED_STATUS, "上传失败");
             }
         } catch (IOException e) {
-            return new ResultVo(100, "上传失败");
+            return new ResultVo(Constants.FAILED_STATUS, "上传失败");
         }
+    }
+    //修改用户信息
+    @ResponseBody
+    @RequestMapping(value = "/user/update")
+    public ResultVo update(HttpServletRequest request,User user) {
+        String token = request.getHeader("token");
+        String userId = JwtUtil.getUserId(token);
+        user.setUserid(Integer.parseInt(userId));
+
+        if (user.getUsername() == null) {
+            return new ResultVo(Constants.FAILED_STATUS, "账号不能为空");
+        }
+
+        if (!JustPhone.isChinaPhoneLegal(user.getMobilephone())) {
+            return new ResultVo(Constants.FAILED_STATUS, "手机号码不合法，请重新输入");
+        }
+
+        System.out.println(userService);
+        Integer count = userService.updateUser(user);
+        user.setPassword(null);
+        if (count == 0) {
+            return new ResultVo(Constants.FAILED_STATUS, "修改失败");
+        } else {
+            return new ResultVo(Constants.SUCCESS_STATUS, "修改成功", user);
+        }
+
+
+    }
+
+    //用户退出
+    @ResponseBody
+    @RequestMapping(value = "/user/logout")   //前端需要传入用户id
+    public ResultVo logout(HttpServletRequest request) {
+       //修改用户状态为offline
+      /*  user.setStatus("offline");
+        userService.updateUser(user);*/
+        String token = request.getHeader("token");
+        String userId = JwtUtil.getUserId(token);
+        redisTemplate.delete(userId+"");
+        return new ResultVo(Constants.SUCCESS_STATUS,"退出成功");
     }
 }
 

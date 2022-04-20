@@ -20,11 +20,11 @@ public interface CommodityService {
     List<Commodity> selectByTypeAndPriceAsc(String type,Integer start,Integer end);
 
 /*根据商品id查询指定商品*/
-    List<Commodity> selectProById(Integer commid,Integer page,Integer count);
+    List<Commodity> selectProById(Integer userid);
 
     public  Integer updateMyProByid(Commodity commodity);
 
-    public Integer deleteProByid(Integer commid);
+    public Integer deleteProByid(Integer commid,Integer userid);
 
     List<Commodity> selectweishen(Commodity commodity);
 
@@ -37,4 +37,15 @@ public interface CommodityService {
     Commodity selectProBynameAnduserId(String commname, Integer userid);
 
     List<Commodity> select();
+
+    void updateLiulanLBycomid(Integer key, Integer liulan);
+
+    List<Commodity> selectProById1(Integer commid);
+
+    Commodity selectProByIdAndCid(Integer commid, Integer userid);
+
+
+    Integer deleteProByid1(Integer commid);
+
+    Integer updateMyProByAdmin(Integer commid);
 }

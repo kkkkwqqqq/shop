@@ -96,4 +96,9 @@
     from commimages
     where commid=#{commid};
   </select>
+
+  <delete id="deleteImagByCommid" >
+    delete from commimages
+    where commid = #{commid,jdbcType=INTEGER}
+  </delete>
 </mapper>

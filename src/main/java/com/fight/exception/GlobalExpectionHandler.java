@@ -1,5 +1,6 @@
 package com.fight.exception;
 
+import com.fight.Constants.Constants;
 import com.fight.vo.ResultVo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,14 +28,14 @@ public class GlobalExpectionHandler {
     @ResponseBody
     public Object handleException(Exception e){
         log.error("Default Exception:",e);
-        return new ResultVo(100,e.getMessage());
+        return new ResultVo(Constants.FAILED_STATUS,e.getMessage());
 
     }
     @ExceptionHandler(ShopException.class)
     @ResponseBody
     public Object handleImoocMallException(ShopException e) {
         log.error("ShopException: ", e);
-        return new ResultVo(100,e.getMessage());
+        return new ResultVo(Constants.FAILED_STATUS,e.getMessage());
     }
 
 

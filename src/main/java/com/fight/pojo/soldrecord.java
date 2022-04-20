@@ -1,8 +1,14 @@
 package com.fight.pojo;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.math.BigDecimal;
 import java.util.Date;
-
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class soldrecord {
     private Integer id;
 
@@ -22,75 +28,11 @@ public class soldrecord {
 
     private String fahuostatus;
 
-    public Integer getId() {
-        return id;
-    }
+    private Integer buyerid;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+    private String orderid;
 
-    public Integer getCommid() {
-        return commid;
-    }
+    private int isPay;
 
-    public void setCommid(Integer commid) {
-        this.commid = commid;
-    }
 
-    public String getCommname() {
-        return commname;
-    }
-
-    public void setCommname(String commname) {
-        this.commname = commname == null ? null : commname.trim();
-    }
-
-    public String getCommdesc() {
-        return commdesc;
-    }
-
-    public void setCommdesc(String commdesc) {
-        this.commdesc = commdesc == null ? null : commdesc.trim();
-    }
-
-    public BigDecimal getThinkmoney() {
-        return thinkmoney;
-    }
-
-    public void setThinkmoney(BigDecimal thinkmoney) {
-        this.thinkmoney = thinkmoney;
-    }
-
-    public Date getSoldtime() {
-        return soldtime;
-    }
-
-    public void setSoldtime(Date soldtime) {
-        this.soldtime = soldtime;
-    }
-
-    public Integer getUserid() {
-        return userid;
-    }
-
-    public void setUserid(Integer userid) {
-        this.userid = userid;
-    }
-
-    public Integer getSoldstatus() {
-        return soldstatus;
-    }
-
-    public void setSoldstatus(Integer soldstatus) {
-        this.soldstatus = soldstatus;
-    }
-
-    public String getFahuostatus() {
-        return fahuostatus;
-    }
-
-    public void setFahuostatus(String fahuostatus) {
-        this.fahuostatus = fahuostatus == null ? null : fahuostatus.trim();
-    }
 }

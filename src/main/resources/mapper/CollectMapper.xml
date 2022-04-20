@@ -6,14 +6,14 @@
     <result column="commid" jdbcType="INTEGER" property="commid" />
     <result column="commname" jdbcType="VARCHAR" property="commname" />
     <result column="commdesc" jdbcType="VARCHAR" property="commdesc" />
-    <result column="soldtime" jdbcType="TIMESTAMP" property="collecttime" />
+    <result column="collecttime" jdbcType="TIMESTAMP" property="collecttime" />
     <result column="collstatus" jdbcType="INTEGER" property="collstatus" />
     <result column="cmuserid" jdbcType="INTEGER" property="cmuserid" />
     <result column="username" jdbcType="VARCHAR" property="username" />
     <result column="couserid" jdbcType="INTEGER" property="couserid" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, commid, commname, commdesc, soldtime, collstatus, cmuserid, username, couserid
+    id, commid, commname, commdesc, collecttime, collstatus, cmuserid, username, couserid
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select
@@ -27,11 +27,11 @@
   </delete>
   <insert id="insert" parameterType="com.fight.pojo.Collect">
     insert into collect (id, commid, commname,
-      commdesc, soldtime, collstatus,
+      commdesc, collecttime, collstatus,
       cmuserid, username, couserid
       )
     values (#{id,jdbcType=INTEGER}, #{commid,jdbcType=INTEGER}, #{commname,jdbcType=VARCHAR},
-      #{commdesc,jdbcType=VARCHAR}, #{soldtime,jdbcType=TIMESTAMP}, #{collstatus,jdbcType=INTEGER},
+      #{commdesc,jdbcType=VARCHAR}, #{collecttime,jdbcType=TIMESTAMP}, #{collstatus,jdbcType=INTEGER},
       #{cmuserid,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{couserid,jdbcType=INTEGER}
       )
   </insert>
@@ -50,8 +50,8 @@
       <if test="commdesc != null">
         commdesc,
       </if>
-      <if test="soldtime != null">
-        soldtime,
+      <if test="collecttime != null">
+        collecttime,
       </if>
       <if test="collstatus != null">
         collstatus,
@@ -79,8 +79,8 @@
       <if test="commdesc != null">
         #{commdesc,jdbcType=VARCHAR},
       </if>
-      <if test="soldtime != null">
-        #{soldtime,jdbcType=TIMESTAMP},
+      <if test="collecttime != null">
+        #{collecttime,jdbcType=TIMESTAMP},
       </if>
       <if test="collstatus != null">
         #{collstatus,jdbcType=INTEGER},
@@ -108,8 +108,8 @@
       <if test="commdesc != null">
         commdesc = #{commdesc,jdbcType=VARCHAR},
       </if>
-      <if test="soldtime != null">
-        soldtime = #{soldtime,jdbcType=TIMESTAMP},
+      <if test="collecttime != null">
+        collecttime = #{collecttime,jdbcType=TIMESTAMP},
       </if>
       <if test="collstatus != null">
         collstatus = #{collstatus,jdbcType=INTEGER},
@@ -131,7 +131,7 @@
     set commid = #{commid,jdbcType=INTEGER},
       commname = #{commname,jdbcType=VARCHAR},
       commdesc = #{commdesc,jdbcType=VARCHAR},
-      soldtime = #{soldtime,jdbcType=TIMESTAMP},
+      collecttime = #{collecttime,jdbcType=TIMESTAMP},
       collstatus = #{collstatus,jdbcType=INTEGER},
       cmuserid = #{cmuserid,jdbcType=INTEGER},
       username = #{username,jdbcType=VARCHAR},
@@ -142,4 +142,12 @@
   <delete id="giveColPro">
     delete from collect where couserid=#{param2} and commid=#{param1}
   </delete>
+
+  <select id="existOrNot" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select * from collect where couserid=#{param2} and commid=#{param1}
+  </select>
+
+  <select id="selectAllCollect" resultMap="BaseResultMap">
+    select * from collect where couserid=#{userid}
+  </select>
 </mapper>

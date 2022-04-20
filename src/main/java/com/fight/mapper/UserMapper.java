@@ -1,11 +1,12 @@
 package com.fight.mapper;
 
 import com.fight.pojo.User;
+import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository
+@Mapper
 public interface UserMapper {
     int deleteByPrimaryKey(Integer userid);
 
@@ -29,6 +30,11 @@ public interface UserMapper {
     User selectByName(String username);
 
 
+    User selectByNameAndPwd(String username, String password);
 
+    /*Integer updateUserStatus(String status, Integer userid);*/
 
+    List<Integer> seleceAllUserId();
+
+    User selectGlyByNameAndPwd(String username, String password);
 }

@@ -1,9 +1,11 @@
 package com.fight.mapper;
 
 import com.fight.pojo.Comment;
+import org.apache.ibatis.annotations.Mapper;
+import org.mybatis.spring.annotation.MapperScan;
 
 import java.util.List;
-
+@Mapper
 public interface CommentMapper {
     int deleteByPrimaryKey(Integer cid);
 
@@ -17,5 +19,7 @@ public interface CommentMapper {
 
     int updateByPrimaryKey(Comment record);
 
-    List<Comment> selectByCommid(Integer commid, Integer start, Integer end);
+    List<Comment> selectByCommid(Integer commid);
+
+
 }

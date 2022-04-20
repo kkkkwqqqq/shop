@@ -12,4 +12,12 @@ public interface SoldrecordService {
    public Integer updateStatus(soldrecord soldrecord);
 
     List<soldrecord> selectSoldrecordByuserid(Integer userid,int page,int count);
+
+    Integer updateIsPay(int i,String orderid);
+
+    void deleteRecordById(String orderid);
+
+    Integer updateStatus1(String status, String orderid);
+
+    List<soldrecord> allSoldRecord(int sellerid);
 }

@@ -20,4 +20,12 @@ public interface OrderMapper {
     int updateStatus(Order order);
 
    public int confirmGood(Order order);
+
+    Integer updateStatus1(int status, String orderid);
+
+    Integer deleteOrderByid(String buyerid, String orderid);
+
+    Integer deliveryGood(String orderid, int sellerid, String status);
+
+    Integer updateStatus2(String status,String orderid);
 }

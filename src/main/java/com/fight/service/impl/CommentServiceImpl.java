@@ -18,7 +18,12 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<Comment> showComment(Integer commid, Integer start, Integer end) {
-       return commentMapper.selectByCommid(commid, start, end);
+    public List<Comment> showComment(Integer commid) {
+       return commentMapper.selectByCommid(commid);
+    }
+
+    @Override
+    public Integer deleteCommentByCid(Integer cid) {
+        return commentMapper.deleteByPrimaryKey(cid);
     }
 }

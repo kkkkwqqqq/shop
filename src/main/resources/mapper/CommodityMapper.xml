@@ -15,10 +15,11 @@
     <result column="image" jdbcType="VARCHAR" property="image" />
     <result column="userid" jdbcType="INTEGER" property="userid" />
     <result column="alreadsold" jdbcType="VARCHAR" property="alreadsold" />
+    <result column="store" jdbcType="INTEGER" property="store" />
   </resultMap>
   <sql id="Base_Column_List">
     commid, commname, commdesc, videourl, orimoney, thinkmoney, createtime, commstatus,
-    rednumber, category, image, userid,alreadsold
+    rednumber, category, image, userid,alreadsold,store
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select
@@ -28,18 +29,20 @@
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from commodity
-    where commid = #{commid,jdbcType=INTEGER}
+    where commid = #{commid,jdbcType=INTEGER} and userid=#{userid,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.fight.pojo.Commodity">
     insert into commodity (commid, commname, commdesc,
                            videourl, orimoney, thinkmoney,
                            createtime, commstatus, rednumber,
-                           category, image, userid,alreadsold
+                           category, image, userid,alreadsold,
+                           store
     )
     values (#{commid,jdbcType=INTEGER}, #{commname,jdbcType=VARCHAR}, #{commdesc,jdbcType=VARCHAR},
             #{videourl,jdbcType=VARCHAR}, #{orimoney,jdbcType=DECIMAL}, #{thinkmoney,jdbcType=DECIMAL},
             #{createtime,jdbcType=TIMESTAMP}, #{commstatus,jdbcType=INTEGER}, #{rednumber,jdbcType=INTEGER},
             #{category,jdbcType=VARCHAR}, #{image,jdbcType=VARCHAR}, #{userid,jdbcType=INTEGER},#{alreadsold,jdbcType=VARCHAR}
+            ,#{store,jdbcType=INTEGER}
            )
   </insert>
   <insert id="insertSelective" parameterType="com.fight.pojo.Commodity">
@@ -84,6 +87,9 @@
       <if test="alreadsold != null">
         alreadsold,
       </if>
+        <if test="store != null">
+          store,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="commid != null">
@@ -125,6 +131,9 @@
         <if test="alreadsold != null">
         #{alreadsold,jdbcType=VARCHAR},
       </if>
+        <if test="store != null">
+        #{store,jdbcType=INTEGER},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.fight.pojo.Commodity">
@@ -160,14 +169,16 @@
       <if test="image != null">
         image = #{image,jdbcType=VARCHAR},
       </if>
-      <if test="userid != null">
-        userid = #{userid,jdbcType=INTEGER},
-      </if>
+
       <if test="alreadsold != null">
         alreadsold = #{alreadsold,jdbcType=VARCHAR},
     </if>
+        <if test="store != null">
+          store = #{store,jdbcType=INTEGER},
+    </if>
     </set>
     where commid = #{commid,jdbcType=INTEGER}
+    and   userid = #{userid,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.fight.pojo.Commodity">
     update commodity
@@ -182,23 +193,24 @@
         category = #{category,jdbcType=VARCHAR},
         image = #{image,jdbcType=VARCHAR},
         alreadsold = #{alreadsold,jdbcType=VARCHAR},
-        userid = #{userid,jdbcType=INTEGER}
+        userid = #{userid,jdbcType=INTEGER},
+        store=#{store,jdbcType=INTEGER}
     where commid = #{commid,jdbcType=INTEGER}
   </update>
 
 
 
   <select id="selectByType" resultMap="BaseResultMap"  >
-    SELECT * FROM commodity where category=#{type}
+    SELECT * FROM commodity where category=#{type} and commstatus=1
   </select>
 <!--价格从高到低-->
   <select id="selectByTypeAndPriceDesc" resultMap="BaseResultMap" >
-    SELECT * FROM commodity WHERE category =#{type} ORDER BY thinkmoney DESC
+    SELECT * FROM commodity WHERE category =#{type} and commstatus=1 ORDER BY thinkmoney DESC
   </select>
 
 <!--价格从低到高-->
   <select id="selectByTypeAndPriceAsc" resultMap="BaseResultMap" >
-    SELECT * FROM commodity WHERE category =#{type} ORDER BY thinkmoney asc
+    SELECT * FROM commodity WHERE category =#{type} and commstatus=1 ORDER BY thinkmoney asc
   </select>
 
  <!-- <select id="getUserByRowBounds" resultMap="BaseResultMap" parameterType="String">
@@ -206,7 +218,7 @@
   </select>-->
 
   <select id="selectByuserId" resultType="com.fight.pojo.Commodity">
-    select * from commodity where userid=#{userid}  limit #{param2},#{param3}
+    select * from commodity where userid=#{userid}
   </select>
 
   <select id="selectweishen" resultType="com.fight.pojo.Commodity">
@@ -224,6 +236,30 @@
   </select>
 
   <select id="selectNew" resultType="com.fight.pojo.Commodity">
-    select * from commodity ORDER BY createtime DESC
+    SELECT * FROM commodity WHERE commstatus=1 ORDER BY createtime DESC
   </select>
+
+
+  <update id="updateLiulanLBycomid">
+    update commodity set rednumber=#{param2} where commid=#{param1}
+  </update>
+
+  <select id="selectByuserId1" resultType="com.fight.pojo.Commodity">
+    select * from commodity where commid=#{commid} and and commstatus=1
+  </select>
+
+  <select id="selectProByIdAndCid" resultType="com.fight.pojo.Commodity">
+    select * from commodity where commid=#{param1} and userid=#{param2}
+  </select>
+
+  <delete id="deleteByCommid">
+    delete from commodity
+    where commid = #{commid,jdbcType=INTEGER}
+  </delete>
+
+  <update id="updateMyProByAdmin">
+    update commodity  set commstatus=1
+    where commid = #{commid,jdbcType=INTEGER}
+  </update>
+
 </mapper>

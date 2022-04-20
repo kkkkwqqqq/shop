@@ -26,4 +26,24 @@ public class SoldrecordServiceImpl implements SoldrecordService {
     @Override
     public List<soldrecord> selectSoldrecordByuserid(Integer userid,int page,int count) {
        return   soldrecordMapper.selectByPrimaryKey1(userid,page,count);}
+
+    @Override
+    public Integer updateIsPay(int i,String orderid) {
+        return soldrecordMapper.updateIsPay(1,orderid);
+    }
+
+    @Override
+    public void deleteRecordById(String orderid) {
+       soldrecordMapper.deleteByOrderid(orderid);
+    }
+
+    @Override
+    public Integer updateStatus1(String status, String orderid) {
+        return soldrecordMapper.updateStatus1(status,orderid);
+    }
+
+    @Override
+    public List<soldrecord> allSoldRecord(int sellerid) {
+        return soldrecordMapper.allSoldRecord(sellerid);
+    }
 }

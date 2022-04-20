@@ -104,7 +104,9 @@
     where cid = #{cid,jdbcType=INTEGER}
   </update>
 
+
   <select id="selectByCommid" resultType="com.fight.pojo.Comment">
-    select * FROM comment where commid=#{param1} limit #{param2},#{param3}
+    select * FROM comment where commid=#{param1} ORDER BY commtime DESC
   </select>
+
 </mapper>

@@ -30,6 +30,17 @@ public class Commodity {
 
     private String alreadsold;
 
+    private Integer store;
+
+    public Integer getStore() {
+        return store;
+    }
+
+
+    public void setStore(Integer store) {
+        this.store = store;
+    }
+
     public String getAlreadsold() {
         return alreadsold;
     }

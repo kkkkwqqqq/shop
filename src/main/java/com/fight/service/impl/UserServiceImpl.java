@@ -6,6 +6,8 @@ import com.fight.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserServiceImpl implements UserService {
     @Autowired
@@ -13,6 +15,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User login(String username, String password) {
+        System.out.println(userMapper);
       return  userMapper.login(username,password);
     }
 
@@ -42,5 +45,25 @@ public class UserServiceImpl implements UserService {
     @Override
     public User selectByName(String username) {
         return userMapper.selectByName(username);
+    }
+
+    @Override
+    public User selectByNameAndPwd(String username, String password) {
+        return userMapper.selectByNameAndPwd(username,password);
+    }
+
+   /* @Override
+    public Integer selectUserStatusById(String status, Integer userid) {
+        return userMapper.updateUserStatus(status,userid);
+    }*/
+
+    @Override
+    public List<Integer> seleceAllUserId() {
+        return userMapper.seleceAllUserId();
+    }
+
+    @Override
+    public User selectGlyByNameAndPwd(String username, String password) {
+        return userMapper.selectGlyByNameAndPwd(username,password);
     }
 }

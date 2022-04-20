@@ -4,27 +4,27 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.util.Date;
-@ApiModel(value = "com.fight.pojo",description = "用户pojo")
+
 public class User {
-    @ApiModelProperty(value = "用户id")
+
     private Integer userid;
-    @ApiModelProperty(value = "用户名")
+
     private String username;
-    @ApiModelProperty(value = "用户密码")
+
     private String password;
-    @ApiModelProperty(value = "用户手机号码")
+
     private String mobilephone;
-    @ApiModelProperty(value = "用户邮箱")
+
     private String email;
-    @ApiModelProperty(value = "用户图片")
+
     private String uimage;
-    @ApiModelProperty(value = "用户性别")
+
     private String sex;
-    @ApiModelProperty(value = "创建账号的时间")
+
     private Date createtime;
-    @ApiModelProperty(value = "用户状态")
+
     private String status;
-    @ApiModelProperty(value = "用户级别")
+
     private Integer degree;
 
     public Integer getUserid() {

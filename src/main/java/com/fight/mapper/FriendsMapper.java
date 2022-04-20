@@ -1,7 +1,11 @@
 package com.fight.mapper;
 
 import com.fight.pojo.Friends;
+import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
+@Mapper
 public interface FriendsMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -14,4 +18,10 @@ public interface FriendsMapper {
     int updateByPrimaryKeySelective(Friends record);
 
     int updateByPrimaryKey(Friends record);
+
+    Integer addFriendWithBusinesses(Integer userid, Integer fuserid, String username, String sjName);
+
+    Friends isExistFriend(String userId, Integer fuserid);
+
+    List<Friends> showFriends(int userid);
 }

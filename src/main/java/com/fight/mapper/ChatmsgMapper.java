@@ -1,7 +1,9 @@
 package com.fight.mapper;
 
 import com.fight.pojo.Chatmsg;
+import org.apache.ibatis.annotations.Mapper;
 
+@Mapper
 public interface ChatmsgMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -16,4 +18,6 @@ public interface ChatmsgMapper {
     int updateByPrimaryKeyWithBLOBs(Chatmsg record);
 
     int updateByPrimaryKey(Chatmsg record);
+
+
 }

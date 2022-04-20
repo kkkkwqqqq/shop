@@ -1,3 +1,4 @@
+/*
 package com.fight.shiro;
 
 import com.fight.pojo.User;
@@ -28,8 +29,10 @@ public class UserRealm extends AuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
         System.out.println("执行了=》认证doGetAuthorizationInfo");
         //用户名 密码 数据库中取
-     /*   String name="root";
-        String password="123456";*/
+     */
+/*   String name="root";
+        String password="123456";*//*
+
         UsernamePasswordToken userToken = (UsernamePasswordToken) token;
         //去数据库中查
         User user = userService.selectByName(userToken.getUsername());
@@ -42,3 +45,4 @@ public class UserRealm extends AuthorizingRealm {
     }
 }
 
+*/

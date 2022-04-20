@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 @Repository
 public interface CommodityMapper {
-    int deleteByPrimaryKey(Integer commid);
+    int deleteByPrimaryKey(Integer commid,Integer userid);
 
     int insert(Commodity record);
 
@@ -30,7 +30,7 @@ public interface CommodityMapper {
 /*价格从低到高*/
     List<Commodity> selectByTypeAndPriceAsc(String type,Integer start,Integer end);
 
-   List<Commodity>  selectByuserId(Integer userid,Integer page,Integer count);
+   List<Commodity>  selectByuserId(Integer userid);
 
     List<Commodity> selectweishen(Commodity commodity);
 
@@ -41,4 +41,15 @@ public interface CommodityMapper {
     Commodity selectProBynameAnduserId(String commname, Integer userid);
 
     List<Commodity> selectNew();
+
+    void updateLiulanLBycomid(Integer key, Integer liulan);
+
+    List<Commodity> selectByuserId1(Integer commid);
+
+    Commodity selectProByIdAndCid(Integer commid, Integer userid);
+
+
+    Integer deleteByCommid(Integer commid);
+
+    Integer updateMyProByAdmin(Integer commid);
 }

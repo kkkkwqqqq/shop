@@ -1,6 +1,9 @@
 package com.fight.service;
 
 import com.fight.pojo.User;
+import net.bytebuddy.agent.builder.AgentBuilder;
+
+import java.util.List;
 
 public interface UserService {
     //用户登录
@@ -15,4 +18,13 @@ public interface UserService {
 
     /*根据用户名查询是否存在账户*/
     User selectByName(String username);
+
+    User selectByNameAndPwd(String username, String password);
+
+
+/*    Integer selectUserStatusById(String online, Integer userid);*/
+
+    List<Integer> seleceAllUserId();
+
+    User selectGlyByNameAndPwd(String username, String password);
 }

@@ -9,4 +9,14 @@ public interface OrderService {
 
     //确认收获
     public Integer confirmGood(Order order);
+
+    Integer updateStatus1(int status, String orderid);
+
+    Integer deleteOrderById(String userId, String orderid);
+
+    Integer deliveryGood(String orderid, int sellerid, String status);
+
+
+
+    Integer updateStatus2(Order order);
 }

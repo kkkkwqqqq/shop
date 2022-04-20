@@ -1,7 +1,13 @@
 package com.fight.pojo;
 
-import java.util.Date;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import java.util.Date;
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 public class Chatmsg {
     private Integer id;
 
@@ -13,43 +19,8 @@ public class Chatmsg {
 
     private String content;
 
-    public Integer getId() {
-        return id;
-    }
+    private String senderName;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+    private String reciverName;
 
-    public Integer getSenduserid() {
-        return senduserid;
-    }
-
-    public void setSenduserid(Integer senduserid) {
-        this.senduserid = senduserid;
-    }
-
-    public Integer getReciveuserid() {
-        return reciveuserid;
-    }
-
-    public void setReciveuserid(Integer reciveuserid) {
-        this.reciveuserid = reciveuserid;
-    }
-
-    public Date getSendtime() {
-        return sendtime;
-    }
-
-    public void setSendtime(Date sendtime) {
-        this.sendtime = sendtime;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content == null ? null : content.trim();
-    }
 }

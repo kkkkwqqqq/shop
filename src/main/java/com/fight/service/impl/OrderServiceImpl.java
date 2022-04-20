@@ -25,4 +25,24 @@ public class OrderServiceImpl implements OrderService {
     public Integer confirmGood(Order order) {
         return orderMapper.confirmGood( order);
     }
+
+    @Override
+    public Integer updateStatus1(int status, String orderid) {
+        return orderMapper.updateStatus1(status,orderid);
+    }
+
+    @Override
+    public Integer deleteOrderById(String userId, String orderid) {
+        return orderMapper.deleteOrderByid(userId,orderid);
+    }
+
+    @Override
+    public Integer deliveryGood(String orderid, int sellerid, String status) {
+        return orderMapper.deliveryGood(orderid,sellerid,status);
+    }
+
+    @Override
+    public Integer updateStatus2(Order order) {
+        return orderMapper.updateStatus2(order.getStatus(),order.getOrderid());
+    }
 }

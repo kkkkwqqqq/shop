@@ -1,3 +1,4 @@
+/*
 package com.fight.shiro;
 
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
@@ -17,10 +18,12 @@ public class ShiroConfig {
         //设置安全管理器
         bean.setSecurityManager(defaultWebSecurityManager);
         //添加内置过滤器
-        /*
+        */
+/*
         * anon：无需认证就可以访问
         * authc：必须认证了才能访问
-        */
+        *//*
+
         //拦截
         Map<String, String> filterMap = new LinkedHashMap<>();
         //授权，正常情况下会跳转到未授权页面
@@ -53,3 +56,4 @@ public class ShiroConfig {
 
 
 }
+*/

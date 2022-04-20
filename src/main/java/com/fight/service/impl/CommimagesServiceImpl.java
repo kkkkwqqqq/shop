@@ -32,4 +32,9 @@ public class CommimagesServiceImpl implements CommimagesService {
     public Integer deleteImagByid(int id) {
         return commimagesMapper.deleteByPrimaryKey(id);
     }
+
+    @Override
+    public Integer deleteImagByCommid(Integer commid) {
+        return commimagesMapper.deleteImagByCommid(commid);
+    }
 }

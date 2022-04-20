@@ -11,5 +11,8 @@ public interface CommentService {
 
 
 
-    List<Comment> showComment(Integer commid, Integer start, Integer end);
+    List<Comment> showComment(Integer commid);
+
+
+    Integer deleteCommentByCid(Integer cid);
 }

@@ -1,7 +1,13 @@
 package com.fight.pojo;
 
-import java.util.Date;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import java.util.Date;
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Friends {
     private Integer id;
 
@@ -11,35 +17,9 @@ public class Friends {
 
     private Date addtime;
 
-    public Integer getId() {
-        return id;
-    }
+    private String username;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+    private String friendname;
 
-    public Integer getUserid() {
-        return userid;
-    }
 
-    public void setUserid(Integer userid) {
-        this.userid = userid;
-    }
-
-    public Integer getFuserid() {
-        return fuserid;
-    }
-
-    public void setFuserid(Integer fuserid) {
-        this.fuserid = fuserid;
-    }
-
-    public Date getAddtime() {
-        return addtime;
-    }
-
-    public void setAddtime(Date addtime) {
-        this.addtime = addtime;
-    }
 }

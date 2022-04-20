@@ -18,4 +18,6 @@ public interface CommimagesMapper {
     int updateByPrimaryKey(Commimages record);
 
     List<Commimages> selectImageBy(Integer commid);
+
+    Integer deleteImagByCommid(Integer commid);
 }
