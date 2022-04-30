@@ -3,6 +3,8 @@ package com.fight.mapper;
 import com.fight.pojo.Chatmsg;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 @Mapper
 public interface ChatmsgMapper {
     int deleteByPrimaryKey(Integer id);
@@ -20,4 +22,5 @@ public interface ChatmsgMapper {
     int updateByPrimaryKey(Chatmsg record);
 
 
+   List<Chatmsg>  selectCharByUserid(Integer senduserid, Integer reciveuserid);
 }

@@ -57,12 +57,12 @@ public class CollectController {
     /*根据用户id查询所有收藏商品*/
     @ResponseBody
     @RequestMapping(value = "/selectAllCollect")
-    public Object selectAllCollect(HttpServletRequest request) {
+    public ResultVo selectAllCollect(HttpServletRequest request) {
         String token = request.getHeader("token");
         String userId = JwtUtil.getUserId(token);
         int userid = Integer.parseInt(userId);
         List<Collect> collects = collectService.selectAllCollect(userid);
         System.out.println(collects.get(0).getCollecttime());
-        return  collects;
+        return  new ResultVo(Constants.SUCCESS_STATUS,"返回成功",collects);
     }
 }

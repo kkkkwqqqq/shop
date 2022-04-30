@@ -64,6 +64,8 @@ public class FriendController {
         int userid = Integer.parseInt(userId);
        //根据用户id查询所有的好友
         List<Friends> friends=friendService.showFriends(userid);
+        //获取在线用户的id
+
         return new ResultVo(Constants.SUCCESS_STATUS,"成功返回好友列表",friends);
 
     }

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fight.mapper.NoticesMapper">
+  <resultMap id="BaseResultMap" type="com.fight.pojo.Notices">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="userid" jdbcType="INTEGER" property="userid" />
+    <result column="whys" jdbcType="VARCHAR" property="whys" />
+    <result column="isread" jdbcType="INTEGER" property="isread" />
+    <result column="nttime" jdbcType="TIMESTAMP" property="nttime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, userid, whys, isread, nttime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from notices
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from notices
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.fight.pojo.Notices">
+    insert into notices (id, userid, whys, 
+      isread, nttime)
+    values (#{id,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, #{whys,jdbcType=VARCHAR}, 
+      #{isread,jdbcType=INTEGER}, #{nttime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fight.pojo.Notices">
+    insert into notices
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userid != null">
+        userid,
+      </if>
+      <if test="whys != null">
+        whys,
+      </if>
+      <if test="isread != null">
+        isread,
+      </if>
+      <if test="nttime != null">
+        nttime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null">
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="whys != null">
+        #{whys,jdbcType=VARCHAR},
+      </if>
+      <if test="isread != null">
+        #{isread,jdbcType=INTEGER},
+      </if>
+      <if test="nttime != null">
+        #{nttime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fight.pojo.Notices">
+    update notices
+    <set>
+      <if test="userid != null">
+        userid = #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="whys != null">
+        whys = #{whys,jdbcType=VARCHAR},
+      </if>
+      <if test="isread != null">
+        isread = #{isread,jdbcType=INTEGER},
+      </if>
+      <if test="nttime != null">
+        nttime = #{nttime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fight.pojo.Notices">
+    update notices
+    set userid = #{userid,jdbcType=INTEGER},
+      whys = #{whys,jdbcType=VARCHAR},
+      isread = #{isread,jdbcType=INTEGER},
+      nttime = #{nttime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

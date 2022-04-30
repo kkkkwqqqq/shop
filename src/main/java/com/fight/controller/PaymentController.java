@@ -1,6 +1,6 @@
 package com.fight.controller;
 
-import com.alipay.api.AlipayApiException;
+
 import com.alipay.api.internal.util.AlipaySignature;
 import com.fight.Constants.Constants;
 import com.fight.config.AlipayConfig;
@@ -22,14 +22,13 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.UUID;
 
-import static com.sun.xml.internal.ws.api.message.Packet.State.ServerResponse;
+
 
 @RestController
 public class PaymentController {

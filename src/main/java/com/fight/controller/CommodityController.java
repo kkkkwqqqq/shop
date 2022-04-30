@@ -145,7 +145,8 @@ public class CommodityController {
             return new ResultVo(Constants.FAILED_STATUS, "文件上传失败");
         }
         String fileName = System.currentTimeMillis() + avatorFile.getOriginalFilename();
-        String filePath = System.getProperty("user.dir") + System.getProperty("file.separator") + "view" + System.getProperty("file.separator");
+       // String filePath = System.getProperty("user.dir") + System.getProperty("file.separator") + "view" + System.getProperty("file.separator");
+        String filePath = Constants.RESOURCE_WIN_PATH+"/view/" ;
         System.out.println(filePath);
         File file1 = new File(filePath);
         if (!file1.exists()) {
@@ -207,6 +208,7 @@ public class CommodityController {
 
 
     //修改商品清单的某一条内容的主图
+    /**/
     @RequestMapping("/updatePrimaryTu")
     public Object updateUserPic(HttpServletRequest request,
                                 @RequestParam("file") MultipartFile avatorFile,
@@ -218,7 +220,7 @@ public class CommodityController {
         String token = request.getHeader("token");
         String userId = JwtUtil.getUserId(token);
         String fileName = System.currentTimeMillis() + avatorFile.getOriginalFilename();
-        String filePath = System.getProperty("user.dir") + System.getProperty("file.separator") + "img" + System.getProperty("file.separator");
+        String filePath = Constants.RESOURCE_WIN_PATH + "/" + "img" + "/";
         System.out.println(filePath);
         File file1 = new File(filePath);
         if (!file1.exists()) {
@@ -257,7 +259,8 @@ public class CommodityController {
             return new ResultVo(Constants.FAILED_STATUS, "发布商品失败");
         }
         String fileName = System.currentTimeMillis() + primary.getOriginalFilename();
-        String filePath = System.getProperty("user.dir") + System.getProperty("file.separator") + "img" + System.getProperty("file.separator");
+      //  String filePath = System.getProperty("user.dir") + System.getProperty("file.separator") + "img" + System.getProperty("file.separator");
+        String filePath = Constants.RESOURCE_WIN_PATH+"/img/" ;
         System.out.println(System.getProperty("user.dir"));
         System.out.println(filePath);
         File file1 = new File(filePath);
@@ -273,7 +276,8 @@ public class CommodityController {
         commodity.setUserid(Integer.parseInt(userId));
         commodity.setImage(imagPath);
         String fileName1 = System.currentTimeMillis() + video.getOriginalFilename();
-        String filePath1 = System.getProperty("user.dir") + System.getProperty("file.separator") + "view" + System.getProperty("file.separator");
+       // String filePath1 = System.getProperty("user.dir") + System.getProperty("file.separator") + "view" + System.getProperty("file.separator");
+        String filePath1 = Constants.RESOURCE_WIN_PATH+"/view/" ;
         System.out.println(filePath1);
         File file2 = new File(filePath1);
         if (!file2.exists()) {
@@ -288,7 +292,8 @@ public class CommodityController {
         Commodity commodity1 = commodityService.selectProBynameAnduserId(commodity.getCommname(), commodity.getUserid());
         for (int i = 0; i < futu.length; i++) {
             String fileName3 = System.currentTimeMillis() + futu[i].getOriginalFilename();
-            String filePath3 = System.getProperty("user.dir") + System.getProperty("file.separator") + "img" + System.getProperty("file.separator");
+           // String filePath3 = System.getProperty("user.dir") + System.getProperty("file.separator") + "img" + System.getProperty("file.separator");
+            String filePath3 = Constants.RESOURCE_WIN_PATH+"/img/" ;
             System.out.println(filePath3);
             File file3 = new File(filePath3);
             if (!file3.exists()) {

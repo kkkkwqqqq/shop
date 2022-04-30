@@ -2,7 +2,13 @@ package com.fight.socket;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.fight.Constants.Constants;
+import com.fight.exception.ShopException;
+import com.fight.mapper.UserMapper;
+import com.fight.service.ChatMsgService;
+import com.fight.service.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.websocket.*;
@@ -19,10 +25,11 @@ import java.util.concurrent.ConcurrentHashMap;
 @ServerEndpoint("/websocket/{username}")
 public class WebSocket {
 
-    /**
-     * 在线人数
-     */
-    public static int onlineNumber = 0;
+   @Autowired
+   private UserService userService;
+
+   @Autowired
+   private ChatMsgService chatMsgService;
     /**
      * 以用户的姓名为key，WebSocket为对象保存起来
      */
@@ -50,33 +57,12 @@ public class WebSocket {
      */
     @OnOpen
     public void onOpen(@PathParam("username") String username, Session session) {
-        onlineNumber++;
         log.info("现在来连接的客户id：" + session.getId() + "用户名：" + username);
         this.username = username;
         this.session = session;
-        log.info("有新连接加入！ 当前在线人数" + onlineNumber);
-        try {
-            //messageType 1代表上线 2代表下线 3代表在线名单 4代表普通消息
-            //先给所有人发送通知，说我上线了
-            Map<String, Object> map1 = new HashMap<>();
-            map1.put("messageType", 1);
-            map1.put("username", username);
-            sendMessageAll(JSON.toJSONString(map1), username);
-
             //把自己的信息加入到map当中去
             clients.put(username, this);
-            //给自己发一条消息：告诉自己现在都有谁在线
-            Map<String, Object> map2 = new HashMap<>();
-            map2.put("messageType", 3);
-            //移除掉自己
-            Set<String> set = clients.keySet();
-            map2.put("onlineUsers", set);
-            sendMessageTo(JSON.toJSONString(map2), username);
-        } catch (IOException e) {
-            log.info(username + "上线的时候通知所有人发生了错误");
-        }
-
-
+            log.info(username + "连接上了websocket");
     }
 
     @OnError
@@ -90,20 +76,10 @@ public class WebSocket {
      */
     @OnClose
     public void onClose() {
-        onlineNumber--;
-        //webSockets.remove(this);
+        //webSockets.remove(this); //移除当前建立的websocket
         clients.remove(username);
-        try {
-            //messageType 1代表上线 2代表下线 3代表在线名单  4代表普通消息
-            Map<String, Object> map1 = new HashMap<>();
-            map1.put("messageType", 2);
-            map1.put("onlineUsers", clients.keySet());
-            map1.put("username", username);
-            sendMessageAll(JSON.toJSONString(map1), username);
-        } catch (IOException e) {
-            log.info(username + "下线的时候通知所有人发生了错误");
-        }
-        log.info("有连接关闭！ 当前在线人数" + onlineNumber);
+            log.info(username + "断开连接");
+
     }
 
     /**
@@ -118,30 +94,39 @@ public class WebSocket {
             log.info("来自客户端消息：" + message + "客户端的id是：" + session.getId());
             JSONObject jsonObject = JSON.parseObject(message);
             String textMessage = jsonObject.getString("message");
-            String fromusername = jsonObject.getString("username");
-            String tousername = jsonObject.getString("to");
-            //如果不是发给所有，那么就发给某一个人
-            //messageType 1代表上线 2代表下线 3代表在线名单  4代表普通消息
+            String senderid = jsonObject.getString("senderid");
+            String reciverid = jsonObject.getString("reciverid");
+            String senderName = jsonObject.getString("senderName");
+            String reciverName = jsonObject.getString("reciverName");
             Map<String, Object> map1 = new HashMap<>();
-            map1.put("messageType", 4);
             map1.put("textMessage", textMessage);
-            map1.put("fromusername", fromusername);
-            if (tousername.equals("All")) {
-                map1.put("tousername", "所有人");
-                sendMessageAll(JSON.toJSONString(map1), fromusername);
-            } else {
-                map1.put("tousername", tousername);
-                sendMessageTo(JSON.toJSONString(map1), tousername);
-            }
+            map1.put("senderid", senderid);
+                map1.put("reciverid", reciverid);
+                map1.put("senderName", senderName);
+                map1.put("reciverName", reciverName);
+
+                sendMessageTo(JSON.toJSONString(map1), reciverid);
         } catch (Exception e) {
             log.info("发生了错误了");
         }
     }
 
-    public void sendMessageTo(String message, String ToUserName) throws IOException {
+    public void sendMessageTo(String message, String reciverid) throws IOException {
+        //查出接受者id对应的名字
+      String ToUserName = userService.selectNameById(Integer.parseInt(reciverid));
+        JSONObject jsonObject = JSON.parseObject(message);
+        String textMessage = jsonObject.getString("message");
+        String senderid = jsonObject.getString("senderid");
+        String senderName = jsonObject.getString("senderName");
+        String reciverName = jsonObject.getString("reciverName");
         for (WebSocket item : clients.values()) {
             if (item.username.equals(ToUserName)) {
                 item.session.getAsyncRemote().sendText(message);
+                //将信息插入到数据库
+                Integer count = chatMsgService.insertContent(textMessage,senderid,reciverid,senderName,reciverName);
+                if (count==0){
+                    throw new ShopException(Constants.FAILED_STATUS,"插入聊天记录失败");
+                }
                 break;
             }
         }
@@ -154,8 +139,6 @@ public class WebSocket {
         }
     }
 
-    public static synchronized int getOnlineCount() {
-        return onlineNumber;
-    }
+
 
 }

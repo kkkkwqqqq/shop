@@ -66,4 +66,9 @@ public class UserServiceImpl implements UserService {
     public User selectGlyByNameAndPwd(String username, String password) {
         return userMapper.selectGlyByNameAndPwd(username,password);
     }
+
+    @Override
+    public String selectNameById(int userid) {
+        return userMapper.selectNameById(userid);
+    }
 }

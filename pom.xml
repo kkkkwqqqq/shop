@@ -78,12 +78,28 @@
             <version> 4.12</version>
         </dependency>
 
-        <!-- 热部署模块 -->
+        <!--解决Handler dispatch failed;nested exception is java.lang.NoClassDefFoundError: javax/xml/bind/DatatypeConverter-->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-devtools</artifactId>
-            <optional>true</optional>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>2.3.0</version>
         </dependency>
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-impl</artifactId>
+            <version>2.3.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-core</artifactId>
+            <version>2.3.0</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.activation</groupId>
+            <artifactId>activation</artifactId>
+            <version>1.1.1</version>
+        </dependency>
+
 
 
         <!--shiro整合spring包-->
@@ -240,7 +256,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>2.3.7.RELEASE</version>
+                <version>2.2.1.RELEASE</version>
                 <configuration>
                     <mainClass>com.fight.FightApplication</mainClass>
                 </configuration>
@@ -261,6 +277,14 @@
                         <fork>true</fork>
                     </configuration>
                 </plugin>
+
+
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-resources-plugin</artifactId>
+            <version>3.1.0</version>
+        </plugin>
+
 
 
         </plugins>

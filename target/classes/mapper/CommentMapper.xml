@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fight.mapper.CommentMapper">
+  <resultMap id="BaseResultMap" type="com.fight.pojo.Comment">
+    <id column="cid" jdbcType="INTEGER" property="cid" />
+    <result column="commid" jdbcType="INTEGER" property="commid" />
+    <result column="cuserid" jdbcType="INTEGER" property="cuserid" />
+    <result column="spuserid" jdbcType="INTEGER" property="spuserid" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="commtime" jdbcType="TIMESTAMP" property="commtime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    cid, commid, cuserid, spuserid, content, commtime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from comment
+    where cid = #{cid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from comment
+    where cid = #{cid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.fight.pojo.Comment">
+    insert into comment (cid, commid, cuserid,
+      spuserid, content, commtime
+      )
+    values (#{cid,jdbcType=INTEGER}, #{commid,jdbcType=INTEGER}, #{cuserid,jdbcType=INTEGER},
+      #{spuserid,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR}, #{commtime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.fight.pojo.Comment">
+    insert into comment
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="cid != null">
+        cid,
+      </if>
+      <if test="commid != null">
+        commid,
+      </if>
+      <if test="cuserid != null">
+        cuserid,
+      </if>
+      <if test="spuserid != null">
+        spuserid,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="commtime != null">
+        commtime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="cid != null">
+        #{cid,jdbcType=INTEGER},
+      </if>
+      <if test="commid != null">
+        #{commid,jdbcType=INTEGER},
+      </if>
+      <if test="cuserid != null">
+        #{cuserid,jdbcType=INTEGER},
+      </if>
+      <if test="spuserid != null">
+        #{spuserid,jdbcType=INTEGER},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="commtime != null">
+        #{commtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fight.pojo.Comment">
+    update comment
+    <set>
+      <if test="commid != null">
+        commid = #{commid,jdbcType=INTEGER},
+      </if>
+      <if test="cuserid != null">
+        cuserid = #{cuserid,jdbcType=INTEGER},
+      </if>
+      <if test="spuserid != null">
+        spuserid = #{spuserid,jdbcType=INTEGER},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="commtime != null">
+        commtime = #{commtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where cid = #{cid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fight.pojo.Comment">
+    update comment
+    set commid = #{commid,jdbcType=INTEGER},
+      cuserid = #{cuserid,jdbcType=INTEGER},
+      spuserid = #{spuserid,jdbcType=INTEGER},
+      content = #{content,jdbcType=VARCHAR},
+      commtime = #{commtime,jdbcType=TIMESTAMP}
+    where cid = #{cid,jdbcType=INTEGER}
+  </update>
+
+
+  <select id="selectByCommid" resultType="com.fight.pojo.Comment">
+    select * FROM comment where commid=#{param1} ORDER BY commtime DESC
+  </select>
+
+</mapper>

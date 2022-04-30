@@ -117,8 +117,7 @@ public class UserController {
 
         //生成JWT字符串
         String token = JwtUtil.sign(userId, info);
-        //将信息放到redis中
-        redisTemplate.opsForValue().set(userId,token.toString(),60*60*1000);
+
 
         List<Object> list = new ArrayList<Object>();
         user.setStatus("online");
@@ -187,7 +186,8 @@ public class UserController {
 
         }
         String fileName = System.currentTimeMillis() + avatorFile.getOriginalFilename();
-        String filePath = System.getProperty("user.dir") + System.getProperty("file.separator") + "user" + System.getProperty("file.separator");
+       /* String filePath = System.getProperty("user.dir") + System.getProperty("file.separator") + "user" + System.getProperty("file.separator");*/
+        String filePath = Constants.RESOURCE_WIN_PATH+"/user/" ;
         System.out.println(filePath);
         File file1 = new File(filePath);
         if (!file1.exists()) {

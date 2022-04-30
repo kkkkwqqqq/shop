@@ -27,4 +27,6 @@ public interface UserService {
     List<Integer> seleceAllUserId();
 
     User selectGlyByNameAndPwd(String username, String password);
+
+    String selectNameById(int userid);
 }
